@@ -75,35 +75,35 @@ def independent_domination_number(g):
 
 def find_perfect_geodominating_sets(g):
     nodes = set(g.nodes)
-    # paths = dict(nx.all_pairs_shortest_path(g))
+    nodes_len = len(nodes)
+    all_paths = [[None] * nodes_len for _ in range(nodes_len)]
+
     for k in range(2, len(nodes)):
         # Всевозможные варианты множества вершин S
         for si in combinations(nodes, k):
             s = set(si)
-
             v = nodes - s
             # print('S =', si)
             # print('V\\S =', v)
+
             paths = []
             # Всевозможные кратчайшие пути между вершинами из S
-            # TODO: может быть как-то эффективнее сохранять их, чтобы заново не считать?
-            for pi in combinations(s, 2):
-                for p in nx.all_shortest_paths(g, pi[0], pi[1]):
+            for a, b in combinations(s, 2):
+                if all_paths[a][b] is None:
+                    all_paths[a][b] = list(nx.all_shortest_paths(g, a, b))
+                for p in all_paths[a][b]:
                     paths += p[1:-1]
 
             # print('Пути', paths)
             if len(paths) == 0:
                 continue
 
-            # TODO: Возможно достаточно проверить, совпадают ли пути с V\S (только отсортировать надо)
-            # Ответ: не совсем, потому что если много вершин в S, то в путях могут быть вершины из S
-            # Или не добавлять их, или проверять как реализовано
             flag = True
             for node in v:
                 count = paths.count(node)
                 # Если какая-то вершина из V\S встречается больше одного раза, значит
-                # она геодоминируется несколькими парами вершин из S
-                if count > 1 or count == 0:
+                # она геодоминируется несколькими парами вершин из S. Или вершина не геод-ся вовсе
+                if count != 1:
                     # print('No', si)
                     flag = False
                     break
@@ -114,29 +114,27 @@ def find_perfect_geodominating_sets(g):
                 return len(si)
     # Если не получилось найти, значит в S должны быть все вершины
     # print('S', nodes)
-    return len(nodes)
+    return nodes_len
 
 
 if __name__ == '__main__':
     # Вики - EEhW, word - FEhuO, HCOe`^w
-    graphs6 = stdin.readlines()
     # graphs6 = ['FEhuO\n']
+    graphs6 = stdin.readlines()
     t0 = time.time()
 
     for g6 in graphs6:
         g = nx.from_graph6_bytes(g6[0:-1].encode())
+
         # print('Граф', g6[0:-1].encode())
         # g = nx.from_graph6_bytes('FEhuO'.encode())
-        # g = nx.Graph()
         # g.add_edges_from([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 1)])
         nx.draw(g, with_labels=True, font_weight='bold')
         # print('Число независимого доминирования', independent_domination_number(g))
         # print('Результат', find_perfect_geodominating_sets(g))
-        # independent_domination_number(g)  # 7 - 26
-        find_perfect_geodominating_sets(g)  # 7 - 30, 8 -
+        # independent_domination_number(g)  # 7: 26
+        find_perfect_geodominating_sets(g)  # 7: 26, 8 -
 
-
-        # print(nx.maximal_independent_set(g))
         # plt.show()
 
     print(f'Время работы: {time.time() - t0} сек.')
