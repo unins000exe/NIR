@@ -129,11 +129,11 @@ if __name__ == '__main__':
         # print('Граф', g6[0:-1].encode())
         # g = nx.from_graph6_bytes('FEhuO'.encode())
         # g.add_edges_from([(1, 2), (2, 3), (3, 4), (4, 5), (5, 6), (6, 7), (7, 1)])
-        nx.draw(g, with_labels=True, font_weight='bold')
+        # nx.draw(g, with_labels=True, font_weight='bold')
         # print('Число независимого доминирования', independent_domination_number(g))
         # print('Результат', find_perfect_geodominating_sets(g))
-        # independent_domination_number(g)  # 7: 26
-        find_perfect_geodominating_sets(g)  # 7: 26, 8 -
+        independent_domination_number(g)
+        find_perfect_geodominating_sets(g)
 
         # plt.show()
 
