@@ -61,6 +61,7 @@
 \usepackage{enumitem}
 \usepackage{tikz}
 \usepackage{textgreek}
+\usepackage{slashbox}
 
 \usepackage{minted}
 \setminted[python3]{style=bw, linenos, breaklines=true, fontsize=\footnotesize}
@@ -163,6 +164,115 @@
 
 \section{Алгоритмы} 
 Алгоритмы
+
+\section{Результаты исследования}
+\begin{table}[H]
+    \begin{tabular}{|c|c|c|}
+    \hline
+    \backslashbox[1pt]{$g_p$}{$\gamma_i$} & 1 & 2 \\ \hline
+    1                                     & 0 & 0 \\ \hline
+    2                                     & 1 & 0 \\ \hline
+    \end{tabular}
+    \caption{Количество 2-вершинных графов, имеющих заданные $g_p$ и $\gamma_i$}
+\end{table}
+
+\begin{table}[H]
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    \backslashbox[1pt]{$g_p$}{$\gamma_i$} & 1 & 2 & 3 \\ \hline
+    1                                     & 0 & 0 & 0 \\ \hline
+    2                                     & 1 & 0 & 0 \\ \hline
+    3                                     & 1 & 0 & 0 \\ \hline
+    \end{tabular}
+    \caption{Количество 3-вершинных графов, имеющих заданные $g_p$ и $\gamma_i$}
+\end{table}
+
+\begin{table}[H]
+    \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    \backslashbox[1pt]{$g_p$}{$\gamma_i$} & 1 & 2 & 3 & 4 \\ \hline
+    1                                     & 0 & 0 & 0 & 0 \\ \hline
+    2                                     & 1 & 2 & 0 & 0 \\ \hline
+    3                                     & 0 & 0 & 0 & 0 \\ \hline
+    4                                     & 3 & 0 & 0 & 0 \\ \hline
+    \end{tabular}
+    \caption{Количество 4-вершинных графов, имеющих заданные $g_p$ и $\gamma_i$}
+\end{table}
+
+\begin{table}[H]
+    \begin{tabular}{|c|c|c|c|c|c|}
+    \hline
+    \backslashbox[1pt]{$g_p$}{$\gamma_i$} & 1 & 2 & 3 & 4 & 5 \\ \hline
+    1                                     & 0 & 0 & 0 & 0 & 0 \\ \hline
+    2                                     & 2 & 3 & 0 & 0 & 0 \\ \hline
+    3                                     & 0 & 2 & 0 & 0 & 0 \\ \hline
+    4                                     & 2 & 1 & 0 & 0 & 0 \\ \hline
+    5                                     & 7 & 4 & 0 & 0 & 0 \\ \hline
+    \end{tabular}
+    \caption{Количество 5-вершинных графов, имеющих заданные $g_p$ и $\gamma_i$}
+\end{table}
+
+\begin{table}[H]
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    \backslashbox[1pt]{$g_p$}{$\gamma_i$} & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
+    1                                     & 0 & 0 & 0 & 0 & 0 & 0 \\ \hline
+    2                                     & 4 & 11 & 0 & 0 & 0 & 0 \\ \hline
+    3                                     & 0 & 8 & 0 & 0 & 0 & 0 \\ \hline
+    4                                     & 8 & 14 & 0 & 0 & 0 & 0 \\ \hline
+    5                                     & 7 & 11 & 0 & 0 & 0 & 0 \\ \hline
+    6                                     & 15 & 28 & 4 & 0 & 0 & 0 \\ \hline
+    \end{tabular}
+    \caption{Количество 6-вершинных графов, имеющих заданные $g_p$ и $\gamma_i$}
+\end{table}
+
+\begin{table}[H]
+    \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline \backslashbox[1pt]{$g_p$}{$\gamma_i$} 
+      & 1 & 2 & 3 & 4 & 5   & 6 & 7 \\ \hline
+    1 & 0 & 0 & 0 & 0 & 0   & 0 & 0 \\ \hline
+    2 & 11 & 23 & 1 & 0 & 0  & 0 & 0 \\ \hline
+    3 & 0 & 70 & 2 & 0 & 0   & 0 & 0 \\ \hline
+    4 & 24 & 122 & 8 & 0 & 0  & 0 & 0 \\ \hline
+    5 & 53 & 108 & 17 & 0 & 0  & 0 & 0 \\ \hline
+    6 & 26 & 100 & 14 & 0 & 0 & 0 & 0 \\ \hline
+    7 & 42 & 192 & 40 & 0 & 0 & 0 & 0 \\ \hline
+    \end{tabular}
+    \caption{Количество 7-вершинных графов, имеющих заданные $g_p$ и $\gamma_i$}
+\end{table}
+
+\begin{table}[H]
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+    \hline \backslashbox[1pt]{$g_p$}{$\gamma_i$} 
+      & 1  & 2   & 3  & 4 & 5 & 6 & 7     & 8 \\ \hline
+    1 & 0  & 0   & 0  & 0 & 0 & 0 & 0     & 0 \\ \hline
+    2 & 34 & 137  & 5  & 0 & 0 & 0 & 0    & 0 \\ \hline
+    3 & 0  & 581  & 4  & 0 & 0 & 0 & 0    & 0 \\ \hline
+    4 & 126 & 1638 & 107 & 2 & 0 & 0 & 0  & 0 \\ \hline
+    5 & 314 & 1489 & 238 & 1 & 0 & 0 & 0  & 0 \\ \hline
+    6 & 283 & 1467 & 314 & 4 & 0 & 0 & 0  & 0 \\ \hline
+    7 & 145 & 1249 & 350 & 0 & 0 & 0 & 0  & 0 \\ \hline
+    8 & 142 & 1865 & 601 & 21 & 0 & 0 & 0 & 0 \\ \hline
+    \end{tabular}
+    \caption{Количество 8-вершинных графов, имеющих заданные $g_p$ и $\gamma_i$}
+\end{table}
+
+\begin{table}[H]
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+    \hline \backslashbox[1pt]{$g_p$}{$\gamma_i$} 
+      & 1  & 2   & 3  & 4 & 5 & 6 & 7     & 8 & 9\\ \hline
+    1 & 0  & 0   & 0  & 0 & 0 & 0 & 0     & 0 & 0\\ \hline
+    2 & 156 & 888  & 1  & 0 & 0 & 0 & 0    & 0 & 0\\ \hline
+    3 & 0  & 8002  & 182  & 0 & 0 & 0 & 0    & 0 & 0\\ \hline
+    4 & 861 & 31921 & 1853 & 13 & 0 & 0 & 0  & 0 & 0\\ \hline
+    5 & 3422 & 38055 & 6310 & 27 & 0 & 0 & 0  & 0 & 0\\ \hline
+    6 & 3477 & 33948 & 7715 & 66 & 0 & 0 & 0  & 0 & 0\\ \hline
+    7 & 2461 & 29432 & 9134 & 144 & 0 & 0 & 0  & 0 & 0\\ \hline
+    8 & 1210 & 25377 & 10380 & 184 & 0 & 0 & 0 & 0 & 0\\ \hline
+    9 & 759 & 31055 & 13511 & 535 & 1 & 0 & 0 & 0 & 0\\ \hline
+    \end{tabular}
+    \caption{Количество 9-вершинных графов, имеющих заданные $g_p$ и $\gamma_i$}
+\end{table}
 
 \conclusion
 Заключение
