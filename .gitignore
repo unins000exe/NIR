@@ -1,2 +1,9 @@
 .idea
 /.idea/
+*.aux
+*.bbl
+*.fls
+*.log
+*.out
+*.toc
+*.fdb_latexmk
