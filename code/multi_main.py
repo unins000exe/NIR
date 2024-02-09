@@ -62,15 +62,17 @@ def find_maximal_independent_sets(g):
 
 
 def independent_domination_number(g):
+    g6 = g[0:-1]
     g = nx.from_graph6_bytes(g[0:-1].encode())
     maximal_independent_sets = find_maximal_independent_sets(g)
     maximal_independent_sets.sort(key=len)
     for s in maximal_independent_sets:
         if nx.is_dominating_set(g, s):
-            return len(s)
+            return g6, len(s)
 
 
 def find_perfect_geodominating_sets(g):
+    g6 = g[0:-1]
     g = nx.from_graph6_bytes(g[0:-1].encode())
     nodes = set(g.nodes)
     nodes_len = len(nodes)
@@ -109,10 +111,10 @@ def find_perfect_geodominating_sets(g):
             if flag:
                 # print('S', si)
                 # print('V\\S', v)
-                return len(si)
+                return g6, len(si)
     # Если не получилось найти, значит в S должны быть все вершины
     # print('S', nodes)
-    return nodes_len
+    return g6, nodes_len
 
 
 if __name__ == '__main__':
@@ -120,19 +122,24 @@ if __name__ == '__main__':
     t0 = time.time()
     g = nx.from_graph6_bytes(graphs6[0][0:-1].encode())
     num_nodes = len(g.nodes)
+    f_name = 'res' + str(num_nodes) + '.txt'
+    res_file = open(f_name, 'a')
+    res_file.truncate(0)
 
-    agents = 4
-    chunksize = 4
+    agents = mp.cpu_count()
+    chunksize = 1
     with mp.Pool(processes=agents) as pool:
         result = pool.map(find_perfect_geodominating_sets, graphs6, chunksize)
         result2 = pool.map(independent_domination_number, graphs6, chunksize)
 
     table = [[0] * num_nodes for _ in range(num_nodes)]
     for a, b in zip(result, result2):
-        table[a - 1][b - 1] += 1
+        table[a[1] - 1][b[1] - 1] += 1
+        # Первое число геодоминирования, второе доминирования
+        res_file.write(a[0] + str(a[1]) + ',' + str(b[1]) + '\n')
 
     for row in table:
-        print(row)
-
+        res_file.write(str(row) + '\n')
 
     print(f'Время работы: {time.time() - t0} сек.')
+    res_file.close()
