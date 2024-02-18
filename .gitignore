@@ -7,3 +7,8 @@
 *.out
 *.toc
 *.fdb_latexmk
+*.pygtex
+*.pygstyle
+*.gz
+*.gz
+report/nir.synctex.gz
