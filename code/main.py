@@ -6,6 +6,7 @@ import time
 from itertools import combinations
 
 
+
 def find_maximal_independent_sets(g):
     # 1 Начальная установка
     k, s, q_minus, q_plus = 0, [], [[]], [list(g.nodes)]
@@ -75,13 +76,19 @@ def independent_domination_number(g):
 
 def find_perfect_geodominating_sets(g):
     nodes = set(g.nodes)
-    nodes_len = len(nodes)
-    all_paths = [[None] * nodes_len for _ in range(nodes_len)]
+    num_nodes = len(nodes)
+    all_paths = [[None] * num_nodes for _ in range(num_nodes)]
 
-    for k in range(2, len(nodes)):
+    base_s = set()
+    for node in nodes:
+        if g.degree[node] == 1:
+            base_s.add(node)
+    nodes = nodes - base_s
+
+    for k in range(1, len(nodes)):
         # Всевозможные варианты множества вершин S
         for si in combinations(nodes, k):
-            s = set(si)
+            s = set(si).union(base_s)
             v = nodes - s
             # print('S =', si)
             # print('V\\S =', v)
@@ -114,7 +121,7 @@ def find_perfect_geodominating_sets(g):
                 return len(si)
     # Если не получилось найти, значит в S должны быть все вершины
     # print('S', nodes)
-    return nodes_len
+    return num_nodes
 
 
 if __name__ == '__main__':
@@ -122,6 +129,10 @@ if __name__ == '__main__':
     # graphs6 = ['FEhuO\n']
     graphs6 = stdin.readlines()
     t0 = time.time()
+
+    g = nx.from_graph6_bytes(graphs6[0][0:-1].encode())
+    num_nodes = len(g.nodes)
+    table = [[0] * num_nodes for _ in range(num_nodes)]
 
     for g6 in graphs6:
         g = nx.from_graph6_bytes(g6[0:-1].encode())
@@ -132,9 +143,12 @@ if __name__ == '__main__':
         # nx.draw(g, with_labels=True, font_weight='bold')
         # print('Число независимого доминирования', independent_domination_number(g))
         # print('Результат', find_perfect_geodominating_sets(g))
-        independent_domination_number(g)
-        find_perfect_geodominating_sets(g)
+        a = find_perfect_geodominating_sets(g)
+        b = independent_domination_number(g)
+        table[a - 1][b - 1] += 1
 
-        # plt.show()
+    for row in table:
+        print(str(row))
 
     print(f'Время работы: {time.time() - t0} сек.')
+

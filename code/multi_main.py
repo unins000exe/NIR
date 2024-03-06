@@ -75,13 +75,20 @@ def find_perfect_geodominating_sets(g):
     g6 = g[0:-1]
     g = nx.from_graph6_bytes(g[0:-1].encode())
     nodes = set(g.nodes)
-    nodes_len = len(nodes)
-    all_paths = [[None] * nodes_len for _ in range(nodes_len)]
+    num_nodes = len(nodes)
+    all_paths = [[None] * num_nodes for _ in range(num_nodes)]
 
-    for k in range(2, len(nodes)):
+    # Смысла в этом мало
+    base_s = set()
+    for node in nodes:
+        if g.degree[node] == 1:
+            base_s.add(node)
+    nodes = nodes - base_s
+
+    for k in range(1, len(nodes)):
         # Всевозможные варианты множества вершин S
         for si in combinations(nodes, k):
-            s = set(si)
+            s = set(si).union(base_s)
             v = nodes - s
             # print('S =', si)
             # print('V\\S =', v)
@@ -114,7 +121,7 @@ def find_perfect_geodominating_sets(g):
                 return g6, len(si)
     # Если не получилось найти, значит в S должны быть все вершины
     # print('S', nodes)
-    return g6, nodes_len
+    return g6, num_nodes
 
 
 if __name__ == '__main__':
