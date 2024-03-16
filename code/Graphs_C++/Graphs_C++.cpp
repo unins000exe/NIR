@@ -143,29 +143,33 @@ void printPaths(vector<vector<int>> paths, int start, int end, vector<int>& curr
 }
 
 // Куда элементы девают эу
-bool nextComb(unordered_set<int>& a, int n, int m)
+bool next_comb(vector<int>& a, int n, int m)
 {
-    vector<int> temp(a.begin(), a.end());
     int k = m;
     for (int i = k - 1; i >= 0; --i)
-        if (temp[i] < n - k + i + 1)
+        if (a[i] < n - k + i + 1)
         {
-            ++temp[i];
+            ++a[i];
             for (int j = i + 1; j < k; ++j)
-                temp[j] = temp[j - 1] + 1;
-            a.clear();
-            for (int val : temp)
-                a.insert(val);
+                a[j] = a[j - 1] + 1;
             return true;
         }
     return false;
 }
 
+vector<int> diff(vector<int> x, vector<int> y) 
+{ 
+   vector<int> diff;
+   sort(x.begin(), x.end());
+   sort(y.begin(), y.end());
+   set_difference(x.begin(), x.end(), y.begin(), y.end(), inserter(diff, diff.begin()));
+   return diff;
+}
 
 void find_perfect_geodominating_sets(Graph g)
 {
     int n = g.num_vertices;
-    vector <vector <vector <int>>> all_paths(n, vector<vector<int>>(n, vector<int>(n)));
+    vector <vector <vector <int>>> all_paths(n, vector<vector<int>>(n, vector<int>(0)));
     vector <vector <vector <int>>> all_paths_dijkstra(n);
 
     for (size_t i = 0; i < n; i++)
@@ -178,27 +182,48 @@ void find_perfect_geodominating_sets(Graph g)
 
     for (size_t k = 2; k < n; k++)
     {
-        unordered_set <int> s;
-        copy(g.nodes.begin(),
-            g.nodes.begin() + k,
-            inserter(s, s.end()));
-         
-        while (nextComb(s, n, k))
+        vector <int> paths;
+        vector <int> nodes_for_combs(g.nodes.begin(), g.nodes.end());
+
+        do
         {
-            vector <int> paths;
-        }
+            vector <int> s(nodes_for_combs.begin(), nodes_for_combs.begin() + k);
+            vector <int> v = diff(g.nodes, s);
+            cout << "S = ";
+            print1d(s);
+            cout << "V = ";
+            print1d(v);
+
+            vector <int> s_for_combs(s.begin(), s.end());
+            do
+            {
+                int a = s_for_combs[0];
+                int b = s_for_combs[1];
+                // Что-то не так
+                if (all_paths[a][b].size() == 0)
+                {
+                    vector <int> paths_ab;
+                    vector<int> curr_path;
+                    printPaths(all_paths_dijkstra[a], a, b, curr_path, paths_ab);
+                    all_paths[a][b] = paths_ab;
+                    paths_ab.clear();
+                }   
+                for (auto u : all_paths[a][b])
+                {
+                    paths.push_back(u);
+                }
+
+
+            } while (next_comb(s_for_combs, s_for_combs.size() - 1, 2));
+            
+            cout << "Paths = ";
+            print1d(paths);
+
+        } while (next_comb(nodes_for_combs, n - 1, k));
     }
 
 
-    //for (size_t i = 0; i < n; i++)
-    //{
-    //    for (size_t j = 0; j < n; j++)
-    //    {
-    //        if (i != j) 
-    //        {
-    //            vector<int> paths_between;
-    //            vector<int> cur_path;
-    //            printPaths(all_paths_dijkstra[i], i, j, cur_path, paths_between);
+
 
 
 
@@ -207,7 +232,7 @@ void find_perfect_geodominating_sets(Graph g)
 
 int main()
 {
-    string g6 = "F?`fw";
+    string g6 = "EEjo";
     //string g6;
 
     //while (getline(cin, g6))
@@ -217,17 +242,9 @@ int main()
     //    }
 
         Graph g = parse_graph6(g6);
-        unordered_set <int> s = { 1, 2, 3, 4, 5, 6, 7 };
-        while (nextComb(s, g.num_vertices, 3))
-        {
-            for (auto v : s)
-            {
-                cout << v << " ";
-            }
-            cout << endl;
-        }
+ 
         //g.printGraph();
-        //find_perfect_geodominating_sets(g);
+        find_perfect_geodominating_sets(g);
 
         //vector<vector<int>> paths;
         //int start = 0;
